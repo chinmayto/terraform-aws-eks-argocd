@@ -20,7 +20,7 @@ spec:
         app.kubernetes.io/name: nodejs-app
     spec:
       containers:
-      - image: public.ecr.aws/n4o6g6h8/simple-nodejs-app-1:latest
+      - image: public.ecr.aws/n4o6g6h8/simple-nodejs-app-2:latest
         imagePullPolicy: Always
         name: nodejs-app
         ports:

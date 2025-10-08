@@ -3,55 +3,16 @@ kind: AppProject
 metadata:
   name: chinmayto-apps
   namespace: argocd
-  labels:
-    app.kubernetes.io/name: chinmayto-apps
-    app.kubernetes.io/instance: chinmayto-apps
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   description: Project for chinmayto applications
   sourceRepos:
     - 'https://github.com/chinmayto/terraform-aws-eks-argocd.git'
-    - 'https://github.com/chinmayto/*'
   destinations:
     - namespace: '*'
       server: https://kubernetes.default.svc
   clusterResourceWhitelist:
-    - group: ''
-      kind: Namespace
-    - group: ''
-      kind: PersistentVolume
-    - group: 'rbac.authorization.k8s.io'
-      kind: ClusterRole
-    - group: 'rbac.authorization.k8s.io'
-      kind: ClusterRoleBinding
-    - group: 'networking.k8s.io'
-      kind: IngressClass
-    - group: 'storage.k8s.io'
-      kind: StorageClass
+    - group: '*'
+      kind: '*'
   namespaceResourceWhitelist:
-    - group: ''
+    - group: '*'
       kind: '*'
-    - group: 'apps'
-      kind: '*'
-    - group: 'networking.k8s.io'
-      kind: '*'
-    - group: 'extensions'
-      kind: '*'
-  roles:
-    - name: admin
-      description: Admin role for chinmayto-apps project
-      policies:
-        - p, proj:chinmayto-apps:admin, applications, *, chinmayto-apps/*, allow
-        - p, proj:chinmayto-apps:admin, repositories, *, *, allow
-        - p, proj:chinmayto-apps:admin, clusters, *, *, allow
-      groups:
-        - argocd-admins
-    - name: developer
-      description: Developer role for chinmayto-apps project
-      policies:
-        - p, proj:chinmayto-apps:developer, applications, get, chinmayto-apps/*, allow
-        - p, proj:chinmayto-apps:developer, applications, sync, chinmayto-apps/*, allow
-        - p, proj:chinmayto-apps:developer, applications, action/*, chinmayto-apps/*, allow
-      groups:
-        - argocd-developers

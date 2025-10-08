@@ -91,11 +91,7 @@ variable "argocd_hostname" {
   default     = "argocd.chinmayto.com"
 }
 
-variable "argocd_ha_enabled" {
-  description = "Enable high availability for ArgoCD Redis"
-  type        = bool
-  default     = false
-}
+
 
 variable "argocd_admin_password" {
   description = "Custom admin password for ArgoCD (leave empty for auto-generated)"

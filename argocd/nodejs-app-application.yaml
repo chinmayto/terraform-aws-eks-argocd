@@ -3,13 +3,6 @@ kind: Application
 metadata:
   name: nodejs-app
   namespace: argocd
-  labels:
-    app.kubernetes.io/name: nodejs-app
-    app.kubernetes.io/instance: nodejs-app
-  annotations:
-    argocd.argoproj.io/sync-wave: "1"
-  finalizers:
-    - resources-finalizer.argocd.argoproj.io
 spec:
   project: chinmayto-apps
   source:
@@ -23,15 +16,5 @@ spec:
     automated:
       prune: true
       selfHeal: true
-      allowEmpty: false
     syncOptions:
       - CreateNamespace=true
-      - PrunePropagationPolicy=foreground
-      - PruneLast=true
-    retry:
-      limit: 5
-      backoff:
-        duration: 5s
-        factor: 2
-        maxDuration: 3m
-  revisionHistoryLimit: 10

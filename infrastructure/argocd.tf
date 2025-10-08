@@ -1,5 +1,5 @@
 ####################################################################################
-### Route53 Hosted Zone for chinmayto.com (if not exists)
+### Route53 Hosted Zone
 ####################################################################################
 data "aws_route53_zone" "main" {
   name         = var.domain_name
@@ -27,72 +27,30 @@ resource "helm_release" "argocd" {
   version    = var.argocd_chart_version
   namespace  = kubernetes_namespace.argocd.metadata[0].name
 
-  # ArgoCD Server configuration
-  set {
-    name  = "server.service.type"
-    value = var.argocd_server_service_type
-  }
-
-  set {
-    name  = "server.ingress.enabled"
-    value = var.argocd_ingress_enabled
-  }
-
-  set {
-    name  = "server.ingress.ingressClassName"
-    value = var.argocd_ingress_class
-  }
-
-  set {
-    name  = "server.ingress.hosts[0]"
-    value = var.argocd_hostname
-  }
-
-  # Configure ingress annotations for NGINX
-  set {
-    name  = "server.ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/ssl-redirect"
-    value = "false"
-  }
-
-  set {
-    name  = "server.ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/force-ssl-redirect"
-    value = "false"
-  }
-
-  set {
-    name  = "server.ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/backend-protocol"
-    value = "HTTP"
-  }
-
-  # Enable insecure mode for easier access (disable TLS) - NEW FORMAT
-  set {
-    name  = "configs.params.server\\.insecure"
-    value = "true"
-  }
-
-  # Configure RBAC - NEW FORMAT
-  set {
-    name  = "configs.rbac.policy\\.default"
-    value = "role:readonly"
-  }
-
-  # Configure Redis for high availability (optional)
-  set {
-    name  = "redis-ha.enabled"
-    value = var.argocd_ha_enabled
-  }
-
-  # Configure ApplicationSet controller
-  set {
-    name  = "applicationSet.enabled"
-    value = "true"
-  }
-
-  # Configure Notifications controller
-  set {
-    name  = "notifications.enabled"
-    value = "true"
-  }
+  values = [
+    yamlencode({
+      server = {
+        service = {
+          type = var.argocd_server_service_type
+        }
+        ingress = {
+          enabled          = var.argocd_ingress_enabled
+          ingressClassName = var.argocd_ingress_class
+          hosts            = [var.argocd_hostname]
+          annotations = {
+            "nginx.ingress.kubernetes.io/ssl-redirect"       = "false"
+            "nginx.ingress.kubernetes.io/force-ssl-redirect" = "false"
+            "nginx.ingress.kubernetes.io/backend-protocol"   = "HTTP"
+          }
+        }
+      }
+      configs = {
+        params = {
+          "server.insecure" = true
+        }
+      }
+    })
+  ]
 
   depends_on = [kubernetes_namespace.argocd]
 }
@@ -108,17 +66,11 @@ resource "kubernetes_secret" "argocd_admin_password" {
   metadata {
     name      = "argocd-initial-admin-secret"
     namespace = kubernetes_namespace.argocd.metadata[0].name
-    labels = {
-      "app.kubernetes.io/name"    = "argocd-initial-admin-secret"
-      "app.kubernetes.io/part-of" = "argocd"
-    }
   }
 
   data = {
     password = bcrypt(var.argocd_admin_password)
   }
-
-  type = "Opaque"
 
   depends_on = [kubernetes_namespace.argocd]
 }

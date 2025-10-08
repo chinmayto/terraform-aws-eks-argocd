@@ -13,7 +13,7 @@ variable "cluster_name" {
 variable "cluster_version" {
   description = "Kubernetes version for the EKS cluster"
   type        = string
-  default     = "1.32"
+  default     = "1.33"
 }
 
 variable "vpc_cidr" {
@@ -34,23 +34,7 @@ variable "private_subnet_cidrs" {
   default     = ["10.0.10.0/24", "10.0.20.0/24"]
 }
 
-variable "vpc_name" {
-  description = "Name of the VPC"
-  type        = string
-  default     = "CT-EKS-Cluster-VPC"
-}
 
-variable "environment" {
-  description = "Environment name"
-  type        = string
-  default     = "DEV"
-}
-
-variable "s3_bucket_name" {
-  description = "Name of the S3 bucket for Kubernetes storage"
-  type        = string
-  default     = "chinmayto-ct-eks-cluster-s3-storage"
-}
 
 ####################################################################################
 ### ArgoCD Variables
@@ -67,23 +51,7 @@ variable "argocd_chart_version" {
   default     = "5.51.6"
 }
 
-variable "argocd_server_service_type" {
-  description = "ArgoCD server service type (ClusterIP, NodePort, LoadBalancer)"
-  type        = string
-  default     = "ClusterIP"
-}
 
-variable "argocd_ingress_enabled" {
-  description = "Enable ingress for ArgoCD server"
-  type        = bool
-  default     = true
-}
-
-variable "argocd_ingress_class" {
-  description = "Ingress class for ArgoCD"
-  type        = string
-  default     = "nginx"
-}
 
 variable "argocd_hostname" {
   description = "Hostname for ArgoCD ingress"

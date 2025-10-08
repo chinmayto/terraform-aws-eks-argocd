@@ -31,11 +31,11 @@ resource "helm_release" "argocd" {
     yamlencode({
       server = {
         service = {
-          type = var.argocd_server_service_type
+          type = "ClusterIP"
         }
         ingress = {
-          enabled          = var.argocd_ingress_enabled
-          ingressClassName = var.argocd_ingress_class
+          enabled          = true
+          ingressClassName = "nginx"
           hosts            = [var.argocd_hostname]
           annotations = {
             "nginx.ingress.kubernetes.io/ssl-redirect"       = "false"

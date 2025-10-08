@@ -36,9 +36,8 @@ module "vpc" {
   }
 
   tags = {
-    Name        = var.vpc_name
-    Environment = var.environment
-    Terraform   = "true"
+    Name      = "${var.cluster_name}-VPC"
+    Terraform = "true"
   }
 }
 
@@ -88,9 +87,8 @@ module "eks" {
   }
 
   tags = {
-    Name        = var.cluster_name
-    Environment = var.environment
-    Terraform   = "true"
+    Name      = var.cluster_name
+    Terraform = "true"
   }
 }
 

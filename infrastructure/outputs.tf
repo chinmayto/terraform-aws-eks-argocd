@@ -78,7 +78,7 @@ output "argocd_service_info" {
   value = {
     namespace    = kubernetes_namespace.argocd.metadata[0].name
     service_name = "argocd-server"
-    service_type = var.argocd_server_service_type
+    service_type = "ClusterIP"
   }
 }
 
@@ -88,7 +88,7 @@ output "argocd_access_commands" {
     dns_url              = "https://${var.argocd_subdomain}.${var.domain_name}"
     port_forward_command = "kubectl port-forward -n ${var.argocd_namespace} svc/argocd-server 8080:443"
     get_admin_password   = "kubectl -n ${var.argocd_namespace} get secret argocd-initial-admin-secret -o jsonpath='{.data.password}' | base64 -d"
-    get_loadbalancer_url = var.argocd_server_service_type == "LoadBalancer" ? "kubectl get svc -n ${var.argocd_namespace} argocd-server -o jsonpath='{.status.loadBalancer.ingress[0].hostname}'" : "N/A - Service type is not LoadBalancer"
+    get_loadbalancer_url = "N/A - Service type is ClusterIP"
     web_ui_url           = "https://${var.argocd_subdomain}.${var.domain_name}"
     username             = "admin"
     dns_record_status    = "kubectl get route53record argocd -o wide"

@@ -581,6 +581,23 @@ kubectl apply -f argocd/app-of-apps.yaml
 kubectl apply -f argocd/nodejs-app-application.yaml
 ```
 
+## Testing
+
+Accessing argocd using the domain: http://argocd.chinmayto.com
+
+![alt text](image.png)
+
+Deployed app-of-apps:
+
+![alt text](image-1.png)
+
+Deployed application with components:
+
+![alt text](image-2.png)
+
+![alt text](image-3.png)
+
+Update the k8s-manifests and see argocd picking up the changes and deploying them.
 ## Cleanup Steps
 
 To avoid unnecessary AWS charges, clean up resources in the following order:

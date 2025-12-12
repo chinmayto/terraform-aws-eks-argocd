@@ -608,8 +608,6 @@ kubectl apply -f argocd/nodejs-app-application.yaml
 
 Accessing argocd using the domain: http://argocd.chinmayto.com
 
-![alt text](image.png)
-
 Deployed app-of-apps:
 
 

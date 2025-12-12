@@ -598,6 +598,10 @@ Deployed application with components:
 ![alt text](image-3.png)
 
 Update the k8s-manifests and see argocd picking up the changes and deploying them.
+
+![alt text](image-4.png)
+
+
 ## Cleanup Steps
 
 To avoid unnecessary AWS charges, clean up resources in the following order:

@@ -54,8 +54,8 @@ Our implementation creates a robust, scalable architecture that includes:
 │                                                              │
 │  ┌──────────────────────────────────────────────────────────┐│
 │  │                   Route53                                ││
-│  │  argocd.yourdomain.com → NGINX Ingress NLB               ││
-│  │  app.yourdomain.com → NGINX Ingress NLB                  ││
+│  │  argocd.chinmayto.com → NGINX Ingress NLB                ││
+│  │  app.chinmayto.com → NGINX Ingress NLB                   ││
 │  └──────────────────────────────────────────────────────────┘│
 └──────────────────────────────────────────────────────────────┘
 ```

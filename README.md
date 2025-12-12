@@ -25,7 +25,16 @@ ArgoCD is a declarative, GitOps continuous delivery tool for Kubernetes that off
 
 ## Architecture Overview
 
-Our implementation creates a robust, scalable architecture that includes:
+This implementation demonstrates a complete GitOps workflow using ArgoCD on Amazon EKS, creating a production-ready, cloud-native application delivery platform. 
+
+The architecture consists of three main layers: 
+- **Infrastructure Layer** (Terraform-managed AWS resources) - The infrastructure layer provisions a secure VPC with public and private subnets across multiple availability zones, an EKS cluster with managed node groups, and an NGINX Ingress Controller exposed via AWS Network Load Balancer.
+
+- **Platform Layer** (Kubernetes services and ArgoCD) - The platform layer deploys ArgoCD server with custom ingress configuration for web UI access, implements the App-of-Apps pattern for centralized application management, and establishes Route53 DNS records for both ArgoCD (`argocd.chinmayto.com`) and applications (`app.chinmayto.com`).
+
+- **Application Layer** (containerized workloads) - The application layer showcases a sample Node.js application deployed via GitOps, demonstrating automated synchronization, self-healing capabilities, and ingress-based external access. 
+
+This architecture enables teams to achieve Infrastructure as Code through Terraform, GitOps-driven deployments through ArgoCD, automated application lifecycle management, and secure, scalable access patterns through AWS-native networking services.
 
 ```
 ┌──────────────────────────────────────────────────────────────┐
@@ -58,7 +67,21 @@ Our implementation creates a robust, scalable architecture that includes:
 │  │  app.chinmayto.com → NGINX Ingress NLB                   ││
 │  └──────────────────────────────────────────────────────────┘│
 └──────────────────────────────────────────────────────────────┘
+
+GitOps Flow:
+Git Repository → ArgoCD (App-of-Apps) → Kubernetes Applications
 ```
+
+### The Significance of App-of-Apps Pattern
+
+The `app-of-apps.yaml` file implements ArgoCD's **App-of-Apps pattern**, which serves as the cornerstone of scalable GitOps architecture in this implementation. This pattern creates a root ArgoCD application that monitors the `argocd/` directory in the Git repository and automatically manages the lifecycle of all other applications defined within it. When the App-of-Apps application syncs, it discovers application manifests like `nodejs-app-application.yaml` and `project.yaml`, then creates and manages these applications in ArgoCD without manual intervention. This approach transforms application deployment from a manual, imperative process into a fully automated, declarative workflow where adding a new application is as simple as committing a new YAML file to the `argocd/` directory. 
+
+The pattern provides several critical benefits: 
+- **centralized management** of multiple applications from a single source, 
+- **automatic discovery** and deployment of new applications, - **self-healing capabilities** that ensure applications remain in their desired state, and 
+- **GitOps compliance** where Git serves as the single source of truth for the entire application portfolio. 
+
+In production environments, this pattern enables teams to achieve true Infrastructure as Code for application management, supports multi-environment deployments through branch-based strategies, provides complete audit trails through Git history, and enables disaster recovery scenarios where the entire application ecosystem can be restored from Git repository state alone.
 
 ## Prerequisites
 
@@ -589,17 +612,11 @@ Accessing argocd using the domain: http://argocd.chinmayto.com
 
 Deployed app-of-apps:
 
-![alt text](image-1.png)
 
 Deployed application with components:
 
-![alt text](image-2.png)
-
-![alt text](image-3.png)
 
 Update the k8s-manifests and see argocd picking up the changes and deploying them.
-
-![alt text](image-4.png)
 
 
 ## Cleanup Steps

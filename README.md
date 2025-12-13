@@ -619,8 +619,50 @@ Deployed application with components:
 
 ![alt text](image-4.png)
 
-Update the k8s-manifests, commit the code and see argocd picking up the changes and deploying them.
 
+```bash
+$ kubectl get all -n simple-nodejs-app
+NAME                                        READY   STATUS    RESTARTS   AGE        
+pod/deployment-nodejs-app-bfb4c4d56-pdwtt   1/1     Running   0          10m        
+pod/deployment-nodejs-app-bfb4c4d56-rfxfq   1/1     Running   0          10m        
+
+NAME                         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+service/service-nodejs-app   ClusterIP   172.20.120.15   <none>        80/TCP    10m
+
+NAME                                    READY   UP-TO-DATE   AVAILABLE   AGE        
+deployment.apps/deployment-nodejs-app   2/2     2            2           10m        
+
+NAME                                              DESIRED   CURRENT   READY   AGE   
+replicaset.apps/deployment-nodejs-app-bfb4c4d56   2         2         2       10m   
+```
+
+Update the k8s-manifests, commit the code and see argocd picking up the changes and deploying them.
+![alt text](image-5.png)
+
+
+Deployment complete:
+
+![alt text](image-6.png)
+
+![alt text](image-7.png)
+
+```bash
+$ kubectl get all -n simple-nodejs-app
+NAME                                         READY   STATUS    RESTARTS   AGE
+pod/deployment-nodejs-app-66684f5945-fdwqp   1/1     Running   0          2m42s
+pod/deployment-nodejs-app-66684f5945-h6pv9   1/1     Running   0          2m16s
+pod/deployment-nodejs-app-66684f5945-tfs45   1/1     Running   0          2m30s
+
+NAME                         TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)   AGE
+service/service-nodejs-app   ClusterIP   172.20.120.15   <none>        80/TCP    13m
+
+NAME                                    READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/deployment-nodejs-app   3/3     3            3           13m
+
+NAME                                               DESIRED   CURRENT   READY   AGE
+replicaset.apps/deployment-nodejs-app-66684f5945   3         3         3       2m43s
+replicaset.apps/deployment-nodejs-app-bfb4c4d56    0         0         0       13m
+```
 
 ## Cleanup Steps
 

@@ -606,18 +606,18 @@ kubectl apply -f argocd/app-of-apps.yaml
 
 Accessing argocd using the domain: http://argocd.chinmayto.com
 
-![alt text](image.png)
+![alt text](/images/argocd_1.png)
 
-![alt text](image-1.png)
+![alt text](/images/argocd_2.png)
 
 Deployed app-of-apps:
-![alt text](image-2.png)
+![alt text](/images/appofapps_deployement.png)
 
 Deployed application with components:
 
-![alt text](image-3.png)
+![alt text](/images/appv1_deployed.png)
 
-![alt text](image-4.png)
+![alt text](/images/appv1_screen.png)
 
 
 ```bash
@@ -637,14 +637,13 @@ replicaset.apps/deployment-nodejs-app-bfb4c4d56   2         2         2       10
 ```
 
 Update the k8s-manifests, commit the code and see argocd picking up the changes and deploying them.
-![alt text](image-5.png)
-
+![alt text](/images/appv2_inprogress.png)
 
 Deployment complete:
 
-![alt text](image-6.png)
+![alt text](/images/appv2_deployed.png)
 
-![alt text](image-7.png)
+![alt text](/images/appv2_screen.png)
 
 ```bash
 $ kubectl get all -n simple-nodejs-app
@@ -666,18 +665,33 @@ replicaset.apps/deployment-nodejs-app-bfb4c4d56    0         0         0       1
 
 ## Cleanup Steps
 
-To avoid unnecessary AWS charges, clean up resources in the following order:
-
 ```bash
-# 1. Delete ArgoCD applications first
-kubectl delete applications --all -n argocd
+# Verify applications present
+kubectl get applications -n argocd
 
-# 2. Delete ArgoCD projects
-kubectl delete appprojects --all -n argocd
+# Delete specific applications by name (NEVER use --all with projects)
+kubectl delete application app-of-apps -n argocd
+kubectl delete application nodejs-app -n argocd
 
-# 3. Destroy Terraform infrastructure
+# Verify applications are deleted
+kubectl get applications -n argocd
+
+# Verify custom projects
+kubectl get appprojects -n argocd
+
+# Only delete the custom project, NEVER delete default project
+kubectl delete appproject chinmayto-apps -n argocd
+
+# Verify only custom project is deleted (default should remain)
+kubectl get appprojects -n argocd
+
+# Delete the resources and namespace for application
+kubectl delete all --all-namespaces -l argocd.argoproj.io/instance=nodejs-app
+kubectl delete ns -l argocd.argoproj.io/instance=nodejs-app
+
+# Destroy terraform infrastructure
+cd infrastructure
 terraform destroy -auto-approve
-
 ```
 
 ## Conclusion

@@ -1,7 +1,7 @@
 ####################################################################################
 ### Route53 Hosted Zone
 ####################################################################################
-data "aws_route53_zone" "main" {
+data "aws_route53_zone" "kubevpro.mlbinfo.net" {
   name         = var.domain_name
   private_zone = false
 }

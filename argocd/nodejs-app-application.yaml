@@ -4,9 +4,9 @@ metadata:
   name: nodejs-app
   namespace: argocd
 spec:
-  project: chinmayto-apps
+  project: micheal-apps
   source:
-    repoURL: https://github.com/chinmayto/terraform-aws-eks-argocd.git
+    repoURL: https://github.com/michealL682/terraform-aws-eks-argocd.git
     targetRevision: HEAD
     path: k8s-manifests
   destination:
@@ -17,4 +17,4 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true
+    - CreateNamespace=true

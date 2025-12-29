@@ -16,7 +16,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket                     = "chinmayto-terraform-state-bucket-1755526674"
+    bucket                     = "aws-argocd89"
     key                        = "eks-cluster-argocd/terraform.tfstate"
     region                     = "us-east-1"
     encrypt                    = true

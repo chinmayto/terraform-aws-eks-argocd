@@ -13,7 +13,7 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: nodejs-app
-  replicas: 2
+  replicas: 3
   revisionHistoryLimit: 3
   template:
     metadata:
@@ -42,8 +42,8 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - port: 80
-      name: http
-      targetPort: 8080
+  - port: 80
+    name: http
+    targetPort: 8080
   selector:
     app.kubernetes.io/name: nodejs-app

@@ -7,7 +7,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/michealL682/terraform-aws-eks-argocd.git
-    targetRevision: HEAD
+    targetRevision: feature
     path: argocd
   destination:
     server: https://kubernetes.default.svc

@@ -69,7 +69,7 @@ output "argocd_dns_info" {
     domain_name     = var.domain_name
     subdomain       = var.argocd_subdomain
     full_hostname   = "${var.argocd_subdomain}.${var.domain_name}"
-    hosted_zone_id  = data.aws_route53_zone.main.zone_id
+    hosted_zone_id  = data.aws_route53_zone.devcloudproject_com.zone_id
     dns_record_type = "A (Alias to LoadBalancer)"
   }
 }
@@ -84,7 +84,7 @@ output "nodejs_app_dns_info" {
     subdomain       = var.app_subdomain
     full_hostname   = "${var.app_subdomain}.${var.domain_name}"
     app_url         = "http://${var.app_subdomain}.${var.domain_name}"
-    hosted_zone_id  = data.aws_route53_zone.main.zone_id
+    hosted_zone_id  = data.aws_route53_zone.devcloudproject_com.zone_id
     dns_record_type = "A (Alias to NGINX Ingress NLB)"
   }
 }

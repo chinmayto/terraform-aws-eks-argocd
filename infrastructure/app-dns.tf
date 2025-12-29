@@ -2,7 +2,7 @@
 ### Route53 DNS Record for Node.js App (pointing to NGINX Ingress NLB)
 ####################################################################################
 resource "aws_route53_record" "nodejs_app" {
-  zone_id = data.aws_route53_zone.main.zone_id
+  zone_id = data.aws_route53_zone.devcloudproject_com.zone_id
   name    = var.app_subdomain
   type    = "A"
 

@@ -74,7 +74,7 @@ variable "argocd_admin_password" {
 variable "domain_name" {
   description = "Domain name for the hosted zone"
   type        = string
-  default     = "chinmayto.com"
+  default     = "devcloudproject.com"
 }
 
 variable "argocd_subdomain" {

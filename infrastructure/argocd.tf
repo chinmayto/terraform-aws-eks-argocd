@@ -1,7 +1,7 @@
 ####################################################################################
 ### Route53 Hosted Zone
 ####################################################################################
-data "aws_route53_zone" "kubevpro.mlbinfo.net" {
+data "aws_route53_zone" "devcloudproject_com" {
   name         = var.domain_name
   private_zone = false
 }
@@ -79,7 +79,7 @@ resource "kubernetes_secret" "argocd_admin_password" {
 ### Route53 DNS Record for ArgoCD (pointing to NGINX Ingress NLB)
 ####################################################################################
 resource "aws_route53_record" "argocd" {
-  zone_id = data.aws_route53_zone.main.zone_id
+  zone_id = data.aws_route53_zone.devcloudproject_com.zone_id
   name    = var.argocd_subdomain
   type    = "A"
 
